@@ -1,0 +1,195 @@
+<html><head></head><body><div class="apidocDiv">
+<style>
+/*csslint
+*/
+.apidocDiv {
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.apidocDiv a[href] {
+    color: #33f;
+    font-weight: bold;
+    text-decoration: none;
+}
+.apidocDiv a[href]:hover {
+    text-decoration: underline;
+}
+.apidocCodeCommentSpan {
+    background: #bbf;
+    color: #000;
+    display: block;
+}
+.apidocCodeKeywordSpan {
+    color: #d00;
+    font-weight: bold;
+}
+.apidocCodePre {
+    background: #eef;
+    border: 1px solid;
+    color: #777;
+    padding: 5px;
+    white-space: pre-wrap;
+}
+.apidocFooterDiv {
+    margin-top: 20px;
+    text-align: center;
+}
+.apidocModuleLi {
+    margin-top: 10px;
+}
+.apidocSectionDiv {
+    border-top: 1px solid;
+    margin-top: 20px;
+}
+.apidocSignatureSpan {
+    color: #777;
+    font-weight: bold;
+}
+</style>
+<h1>api documentation for
+    <a href="https://github.com/Nijikokun/file-size">file-size (v1.0.0)</a>
+</h1>
+<h4>Lightweight filesize to human-readable / proportions w/o dependencies.</h4>
+<div class="apidocSectionDiv"><a href="#apidoc.tableOfContents" id="apidoc.tableOfContents"><h1>table of contents</h1></a><ol>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.file-size">module file-size</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.file-size.file-size">
+            function <span class="apidocSignatureSpan"></span>file-size
+            <span class="apidocSignatureSpan">(bytes, options)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.file-size.toString">
+            function <span class="apidocSignatureSpan">file-size.</span>toString
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.file-size.toString">module file-size.toString</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.file-size.toString.toString">
+            function <span class="apidocSignatureSpan">file-size.</span>toString
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+</ol></div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.file-size" id="apidoc.module.file-size">module file-size</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.file-size.file-size" id="apidoc.element.file-size.file-size">
+        function <span class="apidocSignatureSpan"></span>file-size
+        <span class="apidocSignatureSpan">(bytes, options)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function filesize(bytes, options) {
+  bytes = typeof bytes == 'number' ? bytes : 0
+  options = options || {}
+  options.fixed = typeof options.fixed == 'number' ? options.fixed : 2
+  options.spacer = typeof options.spacer == 'string' ? options.spacer : ' '
+
+  options.calculate = function (spec) {
+    var type = equals(spec, 'si') ? ['k', 'B'] : ['K', 'iB']
+    var algorithm = equals(spec, 'si') ? 1e3 : 1024
+    var magnitude = Math.log(bytes) / Math.log(algorithm)|0
+    var result = (bytes / Math.pow(algorithm, magnitude))
+    var fixed = result.toFixed(options.fixed)
+    var suffix
+
+    if (magnitude-1 &lt; 3 &amp;&amp; !equals(spec, 'si') &amp;&amp; equals(spec, 'jedec'))
+      type[1] = 'B'
+
+    suffix = magnitude
+      ? (type[0] + 'MGTPEZY')[magnitude-1] + type[1]
+      : ((fixed|0) === 1 ? 'Byte' : 'Bytes')
+
+    return {
+      suffix: suffix,
+      magnitude: magnitude,
+      result: result,
+      fixed: fixed,
+      bits: { result: result/8, fixed: (result/8).toFixed(options.fixed) }
+    }
+  }
+
+  options.to = function (unit, spec) {
+    var algorithm = equals(spec, 'si') ? 1e3 : 1024
+    var position = units.indexOf(typeof unit == 'string' ? unit[0].toUpperCase() : 'B')
+    var result = bytes
+
+    if (position === -1 || position === 0) return result.toFixed(2)
+    for (; position &gt; 0; position--) result /= algorithm
+    return result.toFixed(2)
+  }
+
+  options.human = function (spec) {
+    var output = options.calculate(spec)
+    return output.fixed + options.spacer + output.suffix
+  }
+
+  return options;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.file-size.toString" id="apidoc.element.file-size.toString">
+        function <span class="apidocSignatureSpan">file-size.</span>toString
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">toString = function () {
+    return text;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.file-size.toString" id="apidoc.module.file-size.toString">module file-size.toString</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.file-size.toString.toString" id="apidoc.element.file-size.toString.toString">
+        function <span class="apidocSignatureSpan">file-size.</span>toString
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function toString() { [native code] }</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocFooterDiv">
+    [ this document was created with
+    <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a>
+    ]
+</div>
+</div>
+</body></html>
